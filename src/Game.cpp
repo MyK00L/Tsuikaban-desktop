@@ -159,7 +159,7 @@ GameState *Game::update() {
 		}
 	}
 	if (map[player.pos.y][player.pos.x] == 'D') {
-		if (set.get_solved_levels() < level + 1)
+		if (set.get_solved_levels() < level + 1 && level < set.builtin_levels)
 			set.set_solved_levels(level + 1);
 		GameState *ret = new LevelSelect(window, res, set, 0);
 		delete this;
