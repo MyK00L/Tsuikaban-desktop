@@ -1,4 +1,5 @@
 src/a.out
 src/data.dat
+src/res/levels/**
 src/res/levels
 .vscode
