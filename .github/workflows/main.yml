@@ -36,8 +36,8 @@ jobs:
           cp -R res final
           rm -rf final/res/levels/.git
           cp Tsuikaban.exe final
+        shell: bash
       - uses: actions/upload-artifact@v1
         with:
           name: Tsuikaban-win
           path: src/final
-        shell: bash
