@@ -1,0 +1,30 @@
+name: CI
+
+on: [push]
+
+jobs:
+  linuxbuild:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v1
+      - name: Build
+        run: |
+          sudo apt-get install libsfml-dev
+          cd src
+          ./make.sh
+          mkdir final
+          cp -R res final
+          rm -rf final/res/levels/.git
+          cp Tsuikaban final
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Tsuikaban-amd64
+          path: src/final
+
+#  winbuild:
+#    runs-on: "windows-latest"
+#    steps:
+#      - uses: actions/checkout@v1
+#      - name: Compilazione
+#        run: for i in *.c ; do gcc -Werror -Wall -Wextra -Wpedantic -Wformat=0 --std=c99 "$i" -lm ; done
+#        shell: bash
