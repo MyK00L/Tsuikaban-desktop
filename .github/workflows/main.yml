@@ -27,6 +27,8 @@ jobs:
       - uses: actions/checkout@v1
       - name: Compilazione
         run: |
+          choco install devbox-wget
+          choco install devbox-unzip
           wget https://www.sfml-dev.org/files/SFML-2.5.1-windows-gcc-7.3.0-mingw-32-bit.zip
           unzip SFML-2.5.1-windows-gcc-7.3.0-mingw-32-bit.zip
           mkdir src/final
