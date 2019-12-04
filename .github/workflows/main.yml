@@ -36,8 +36,8 @@ jobs:
           Set-Location -Path src
           g++ main.cpp Game.cpp Editor.cpp LevelSelect.cpp -o Tsuikaban.exe -std=c++14 -O2 -Wall -Wextra -Wpedantic -L../SFML-2.5.1/lib -I../SFML-2.5.1/include -lsfml-system -lsfml-window -lsfml-graphics
           Copy-Item res final
-#          Remove-Item -LiteralPath final\res\levels\.git -Force -Recurse
           Copy-Item Tsuikaban.exe final
+          #Remove-Item -LiteralPath final\res\levels\.git -Force -Recurse
         shell: powershell
       - uses: actions/upload-artifact@v1
         with:
