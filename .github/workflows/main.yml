@@ -21,10 +21,23 @@ jobs:
           name: Tsuikaban-amd64
           path: src/final
 
-#  winbuild:
-#    runs-on: "windows-latest"
-#    steps:
-#      - uses: actions/checkout@v1
-#      - name: Compilazione
-#        run: for i in *.c ; do gcc -Werror -Wall -Wextra -Wpedantic -Wformat=0 --std=c99 "$i" -lm ; done
-#        shell: bash
+  winbuild:
+    runs-on: "windows-latest"
+    steps:
+      - uses: actions/checkout@v1
+      - name: Compilazione
+        run: |
+          wget https://www.sfml-dev.org/files/SFML-2.5.1-windows-gcc-7.3.0-mingw-32-bit.zip
+          unzip SFML-2.5.1-windows-gcc-7.3.0-mingw-32-bit.zip
+          mkdir src/final
+          cp SFML-2.5.1/bin/* src/final
+          cd src
+          g++ main.cpp Game.cpp Editor.cpp LevelSelect.cpp -o Tsuikaban.exe -std=c++14 -O2 -Wall -Wextra -Wpedantic -L../SFML-2.5.1/lib -I../SFML-2.5.1/include -lsfml-system -lsfml-window -lsfml-graphics
+          cp -R res final
+          rm -rf final/res/levels/.git
+          cp Tsuikaban.exe final
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Tsuikaban-win
+          path: src/final
+        shell: bash
