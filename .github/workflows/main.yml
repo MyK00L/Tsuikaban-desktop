@@ -13,12 +13,13 @@ jobs:
           cd src
           ./make.sh
           mkdir final
+          git submodule update --init --recursive
           cp -R res final
           rm -rf final/res/levels/.git
           cp Tsuikaban final
       - uses: actions/upload-artifact@v1
         with:
-          name: Tsuikaban-amd64
+          name: Tsuikaban-lin-amd64
           path: src/final
 
   winbuild:
@@ -34,11 +35,12 @@ jobs:
           Copy-Item SFML-2.5.1\bin\* src\final
           Set-Location -Path src
           g++ main.cpp Game.cpp Editor.cpp LevelSelect.cpp -o Tsuikaban.exe -std=c++14 -O2 -Wall -Wextra -Wpedantic -L../SFML-2.5.1/lib -I../SFML-2.5.1/include -lsfml-system -lsfml-window -lsfml-graphics
+          git submodule update --init --recursive
           Copy-Item -R res final
-          Remove-Item -LiteralPath final/res/levels/.git -Force -Recurse
+          Remove-Item -LiteralPath final\res\levels\.git -Force -Recurse
           Copy-Item Tsuikaban.exe final
         shell: powershell
       - uses: actions/upload-artifact@v1
         with:
-          name: Tsuikaban-win
+          name: Tsuikaban-win-amd64
           path: src/final
