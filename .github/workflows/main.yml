@@ -27,7 +27,7 @@ jobs:
       - uses: actions/checkout@v1
       - name: Compilazione
         run: |
-          Invoke-WebRequest -Uri https://www.sfml-dev.org/files/SFML-2.5.1-windows-gcc-7.3.0-mingw-32-bit.zip -OutFile sfml.zip
+          Invoke-WebRequest -Uri https://www.sfml-dev.org/files/SFML-2.5.1-windows-gcc-7.3.0-mingw-64-bit.zip -OutFile sfml.zip
           Expand-Archive sfml.zip
           mv sfml\SFML-2.5.1 .
           New-Item -ItemType directory -Path src\final
