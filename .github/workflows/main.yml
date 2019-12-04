@@ -33,10 +33,10 @@ jobs:
           mv sfml\SFML-2.5.1 .
           New-Item -ItemType directory -Path src\final
           Copy-Item SFML-2.5.1\bin\* src\final
-          Copy-Item c:\MinGW-w64\bin\libstdc++-6.dll src\final
-          Copy-Item c:\MinGW-w64\bin\libgcc_s_seh-1.dll src\final
+          #Copy-Item c:\MinGW-w64\bin\libstdc++-6.dll src\final
+          #Copy-Item c:\MinGW-w64\bin\libgcc_s_seh-1.dll src\final
           Set-Location -Path src
-          g++ main.cpp Game.cpp Editor.cpp LevelSelect.cpp -o Tsuikaban.exe -std=c++14 -O2 -Wall -Wextra -Wpedantic -L../SFML-2.5.1/lib -I../SFML-2.5.1/include -lsfml-system -lsfml-window -lsfml-graphics
+          g++ main.cpp Game.cpp Editor.cpp LevelSelect.cpp -o Tsuikaban.exe -std=c++14 -O2 -Wall -Wextra -Wpedantic -L../SFML-2.5.1/lib -I../SFML-2.5.1/include -lsfml-system -lsfml-window -lsfml-graphics -static-libgcc and -static-libstdc++
           Copy-Item res/* final/res
           Copy-Item Tsuikaban.exe final
           #Remove-Item -LiteralPath final\res\levels\.git -Force -Recurse
