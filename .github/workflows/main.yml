@@ -25,9 +25,9 @@ jobs:
     runs-on: "windows-latest"
     steps:
       - uses: actions/checkout@v1
-      - name: Compilazione
       - uses: wei/wget@v1
       with:
+      - name: Compilazione
         args: https://www.sfml-dev.org/files/SFML-2.5.1-windows-gcc-7.3.0-mingw-32-bit.zip
         run: |
           tar -xf SFML-2.5.1-windows-gcc-7.3.0-mingw-32-bit.zip
