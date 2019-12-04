@@ -26,11 +26,11 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Compilazione
+      - uses: wei/wget@v1
+      with:
+        args: https://www.sfml-dev.org/files/SFML-2.5.1-windows-gcc-7.3.0-mingw-32-bit.zip
         run: |
-          choco install devbox-wget
-          choco install devbox-unzip
-          wget https://www.sfml-dev.org/files/SFML-2.5.1-windows-gcc-7.3.0-mingw-32-bit.zip
-          unzip SFML-2.5.1-windows-gcc-7.3.0-mingw-32-bit.zip
+          tar -xf SFML-2.5.1-windows-gcc-7.3.0-mingw-32-bit.zip
           mkdir src/final
           cp SFML-2.5.1/bin/* src/final
           cd src
