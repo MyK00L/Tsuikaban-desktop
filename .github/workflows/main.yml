@@ -44,7 +44,7 @@ jobs:
           for lib in $(otool -L Tsuikaban | grep -v /usr/lib | grep -v Tsuikaban: | grep -v /System/Library | cut -d' ' -f1 | cut -f2); do cp $lib Tsuikaban.app/Contents/MacOS; install_name_tool -change $lib @executable_path/$(echo $lib | rev | cut -d'/' -f1 | rev) Tsuikaban.app/Contents/MacOS/Tsuikaban; done
       - uses: actions/upload-artifact@v1
         with:
-          name: Tsuikaban-lin-amd64
+          name: Tsuikaban-macos
           path: src/Tsuikaban.app
 
   winbuild:
