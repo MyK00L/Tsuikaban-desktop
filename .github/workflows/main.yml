@@ -26,9 +26,9 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - uses: wei/wget@v1
-      with:
+        with:
+          args: https://www.sfml-dev.org/files/SFML-2.5.1-windows-gcc-7.3.0-mingw-32-bit.zip
       - name: Compilazione
-        args: https://www.sfml-dev.org/files/SFML-2.5.1-windows-gcc-7.3.0-mingw-32-bit.zip
         run: |
           tar -xf SFML-2.5.1-windows-gcc-7.3.0-mingw-32-bit.zip
           mkdir src/final
