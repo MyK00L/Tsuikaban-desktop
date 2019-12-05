@@ -42,10 +42,10 @@ jobs:
           rm -rf Tsuikaban.app/Contents/MacOS/res/levels/.git
           cp Tsuikaban Tsuikaban.app/Contents/MacOS/
           mkdir app
-          mv Tsuikaban.app app
           for lib in $(otool -L Tsuikaban | grep -v /usr/lib | grep -v Tsuikaban: | grep -v /System/Library | cut -d' ' -f1 | cut -f2); do cp $lib Tsuikaban.app/Contents/MacOS/; install_name_tool -change $lib @executable_path/$(echo $lib | rev | cut -d'/' -f1 | rev) Tsuikaban.app/Contents/MacOS/Tsuikaban; done
-          cd Tsuikaban.app/Contents/MacOS
+          #cd Tsuikaban.app/Contents/MacOS
           #for dyl in ls *.dylib; do for lib in $(otool -L $dyl | grep -v /usr/lib | grep -v Tsuikaban: | grep -v /System/Library | cut -d' ' -f1 | cut -f2); do cp $lib Tsuikaban.app/Contents/MacOS/; install_name_tool -change $lib @executable_path/$(echo $lib | rev | cut -d'/' -f1 | rev) Tsuikaban.app/Contents/MacOS/Tsuikaban; done done
+          mv Tsuikaban.app app
       - uses: actions/upload-artifact@v1
         with:
           name: Tsuikaban-macos
