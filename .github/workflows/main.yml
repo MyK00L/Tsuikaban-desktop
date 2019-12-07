@@ -1,0 +1,79 @@
+name: CI
+
+on: [push]
+
+jobs:
+  linbuild:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v1
+      - name: Build
+        run: |
+          sudo apt-get install libsfml-dev
+          cd src
+          ./make.sh
+          mkdir final
+          git submodule update --init --recursive
+          cp -R res final
+          rm -rf final/res/levels/.git
+          cp Tsuikaban final
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Tsuikaban-lin-amd64
+          path: src/final
+  macbuild:
+    runs-on: "macos-latest"
+    steps:
+      - uses: actions/checkout@v1
+      - name: Build
+        run: |
+          brew install sfml
+          cd src
+          g++ main.cpp Game.cpp Editor.cpp LevelSelect.cpp -o Tsuikaban -std=c++14 -O2 -Wall -Wextra -Wpedantic -headerpad_max_install_names -lsfml-system -lsfml-window -lsfml-graphics
+          mkdir Tsuikaban.app
+          mkdir Tsuikaban.app/Contents
+          mkdir Tsuikaban.app/Contents/Resources
+          mkdir Tsuikaban.app/Contents/MacOS
+          cp ../macos/Icon.icns Tsuikaban.app/Contents/Resources
+          cp ../macos/launch Tsuikaban.app/Contents/MacOS/
+          cp ../macos/Info.plist Tsuikaban.app/Contents
+          git submodule update --init --recursive
+          cp -R res Tsuikaban.app/Contents/MacOS
+          rm -rf Tsuikaban.app/Contents/MacOS/res/levels/.git
+          cp Tsuikaban Tsuikaban.app/Contents/MacOS/
+          mkdir app
+          for lib in $(otool -L Tsuikaban | grep -v /usr/lib | grep -v Tsuikaban: | grep -v /System/Library | cut -d' ' -f1 | cut -f2); do cp $lib Tsuikaban.app/Contents/MacOS/; install_name_tool -change $lib @executable_path/$(echo $lib | rev | cut -d'/' -f1 | rev) Tsuikaban.app/Contents/MacOS/Tsuikaban; done
+          #cd Tsuikaban.app/Contents/MacOS
+          #for dyl in ls *.dylib; do for lib in $(otool -L $dyl | grep -v /usr/lib | grep -v Tsuikaban: | grep -v /System/Library | cut -d' ' -f1 | cut -f2); do cp $lib Tsuikaban.app/Contents/MacOS/; install_name_tool -change $lib @executable_path/$(echo $lib | rev | cut -d'/' -f1 | rev) Tsuikaban.app/Contents/MacOS/Tsuikaban; done done
+          mv Tsuikaban.app app
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Tsuikaban-macos
+          path: src/app
+
+  winbuild:
+    runs-on: "windows-latest"
+    steps:
+      - uses: actions/checkout@v1
+      - name: Compilazione
+        run: |
+          Invoke-WebRequest -Uri https://www.sfml-dev.org/files/SFML-2.5.1-windows-gcc-7.3.0-mingw-64-bit.zip -OutFile sfml.zip
+          Invoke-WebRequest -Uri https://github.com/MyK00L/Tsuikaban-levels/archive/master.zip -OutFile levels.zip
+          Expand-Archive sfml.zip
+          Expand-Archive levels.zip
+          mv sfml\SFML-2.5.1 .
+          New-Item -ItemType directory -Path src\final
+          Copy-Item SFML-2.5.1\bin\* src\final
+          #Copy-Item c:\MinGW-w64\bin\libstdc++-6.dll src\final
+          #Copy-Item c:\MinGW-w64\bin\libgcc_s_seh-1.dll src\final
+          Set-Location -Path src
+          g++ main.cpp Game.cpp Editor.cpp LevelSelect.cpp -o Tsuikaban.exe -static-libgcc -static-libstdc++ -std=c++14 -O2 -Wall -Wextra -Wpedantic -L../SFML-2.5.1/lib -I../SFML-2.5.1/include -lsfml-system -lsfml-window -lsfml-graphics
+          Copy-Item res/* final/res
+          Copy-Item ..\levels\Tsuikaban-levels-master\ src\final\res\levels
+          Copy-Item Tsuikaban.exe final
+          #Remove-Item -LiteralPath final\res\levels\.git -Force -Recurse
+        shell: powershell
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Tsuikaban-win-amd64
+          path: src/final

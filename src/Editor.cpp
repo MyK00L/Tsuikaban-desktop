@@ -54,7 +54,18 @@ Editor::Editor(sf::RenderWindow &window, Resources &res, Settings &set, int leve
 	set_view();
 }
 void Editor::apply(sf::Keyboard::Key k) {
-	static const sf::Color palette[10] = {{255, 0, 0}, {0, 255, 0}, {0, 255, 255}, {255, 0, 255}, {255, 255, 0}, {255, 127, 127}, {127, 255, 127}, {127, 255, 255}, {255, 255, 127}, {127, 127, 255}};
+	static const sf::Color palette[10] = {
+		{207, 122, 219},
+		{255, 95, 75},
+		{255, 219, 102},
+		{30, 142, 184},
+		{138, 189, 255},
+		{255, 149, 74},
+		{143, 43, 98},
+		{202, 255, 66},
+		{76, 77, 235},
+		{112, 200, 140}
+	};
 	if ((k >= sf::Keyboard::Num0 && k <= sf::Keyboard::Num9) || (k >= sf::Keyboard::Numpad0 && k <= sf::Keyboard::Numpad9)) {
 		if (k >= sf::Keyboard::Num0 && k <= sf::Keyboard::Num9) {
 			k = (sf::Keyboard::Key)((int)k - (int)sf::Keyboard::Num0);
